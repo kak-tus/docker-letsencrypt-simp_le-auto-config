@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+{{range secrets (env "CERTS_VAULT_PATH")}}
+  vault read -field=value {{.}}chain > $CERTS_DIR/chain_{{.}}.pem
+  vault read -field=value {{.}}cert > $CERTS_DIR/cert_{{.}}.pem
+  vault read -field=value {{.}}key > $CERTS_DIR/key_{{.}}.pem
+  vault read -field=value {{.}}fullchain > $CERTS_DIR/fullchain_{{.}}.pem
+{{end}}

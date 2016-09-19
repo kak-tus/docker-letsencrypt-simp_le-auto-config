@@ -1,0 +1,1 @@
+{{key (printf "config/%s/nginx/server_name" (env "SERVICE_NAME"))}}

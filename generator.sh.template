@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+{{range $service_name := plugin "all_services.pl" "need-nginx" | split "\n" }}
+SERVICE_NAME={{$service_name}} consul-template -once -template "/root/service.template:/etc/simp_le-auto.d/{{$service_name}}"
+{{end}}
+
+/bin/start
