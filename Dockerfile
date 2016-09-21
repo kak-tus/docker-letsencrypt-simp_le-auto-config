@@ -1,4 +1,4 @@
-FROM kaktuss/letsencrypt-simp_le-auto:0.8
+FROM kaktuss/letsencrypt-simp_le-auto:0.9
 
 MAINTAINER Andrey Kuzmin "kak-tus@mail.ru"
 
