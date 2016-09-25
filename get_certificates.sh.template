@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
 
 {{range secrets (env "CERTS_VAULT_PATH")}}
-  vault read -field=value {{.}}chain > $CERTS_DIR/chain_{{.}}.pem
-  vault read -field=value {{.}}cert > $CERTS_DIR/cert_{{.}}.pem
-  vault read -field=value {{.}}key > $CERTS_DIR/key_{{.}}.pem
-  vault read -field=value {{.}}fullchain > $CERTS_DIR/fullchain_{{.}}.pem
+DOMAIN=`echo {{.}} | sed 's/\/$//'`
+vault read -field=value {{env "CERTS_VAULT_PATH"}}/{{.}}chain > ${CERTS_DIR}chain_$DOMAIN.pem
+vault read -field=value {{env "CERTS_VAULT_PATH"}}/{{.}}cert > ${CERTS_DIR}cert_$DOMAIN.pem
+vault read -field=value {{env "CERTS_VAULT_PATH"}}/{{.}}key > ${CERTS_DIR}key_$DOMAIN.pem
+vault read -field=value {{env "CERTS_VAULT_PATH"}}/{{.}}fullchain > ${CERTS_DIR}fullchain_$DOMAIN.pem
 {{end}}

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-{{range $service_name := plugin "all_services.pl" "need-nginx" | split "\n" }}
-SERVICE_NAME={{$service_name}} consul-template -once -template "/root/service.template:/etc/simp_le-auto.d/{{$service_name}}"
+{{range $dc := datacenters}}{{range $services := services (printf "@%s" $dc)}}{{range $service := service (printf "%s@%s" $services.Name $dc)}}{{if $service.Tags | contains "need-nginx"}}{{if plugin "skip.sh" $service.Name }}
+SERVICE_NAME={{$service.Name}} consul-template -once -template "/root/service.template:/etc/simp_le-auto.d/{{$service.Name}}"
 {{end}}
 
 /bin/start

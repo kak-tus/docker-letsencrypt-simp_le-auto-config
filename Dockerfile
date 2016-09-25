@@ -16,9 +16,9 @@ COPY generator.sh.template /root/generator.sh.template
 COPY service.template /root/service.template
 COPY get_certificates.sh.template /root/get_certificates.sh.template
 COPY vault_0.6.1_SHA256SUMS /usr/local/bin/vault_0.6.1_SHA256SUMS
-COPY all_services.pl /usr/local/bin/all_services.pl
+COPY skip.sh /usr/local/bin/skip.sh
 
-RUN apk add --update-cache curl unzip perl perl-libwww perl-list-moreutils \
+RUN apk add --update-cache curl unzip \
 
   && cd /usr/local/bin \
 
