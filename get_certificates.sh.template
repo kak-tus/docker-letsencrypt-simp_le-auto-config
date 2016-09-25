@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+mkdir -p {{env "CERTS_VAULT_PATH"}}
+
 {{range secrets (env "CERTS_VAULT_PATH")}}
 DOMAIN=`echo {{.}} | sed 's/\/$//'`
 vault read -field=value {{env "CERTS_VAULT_PATH"}}/{{.}}chain > ${CERTS_DIR}chain_$DOMAIN.pem
