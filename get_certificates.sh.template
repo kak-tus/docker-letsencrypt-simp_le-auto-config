@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
-mkdir -p {{env "CERTS_VAULT_PATH"}}
+mkdir -p $CERTS_DIR
 
 {{range secrets (env "CERTS_VAULT_PATH")}}
 DOMAIN=`echo {{.}} | sed 's/\/$//'`
-vault read -field=value {{env "CERTS_VAULT_PATH"}}/{{.}}chain > ${CERTS_DIR}chain_$DOMAIN.pem
-vault read -field=value {{env "CERTS_VAULT_PATH"}}/{{.}}cert > ${CERTS_DIR}cert_$DOMAIN.pem
-vault read -field=value {{env "CERTS_VAULT_PATH"}}/{{.}}key > ${CERTS_DIR}key_$DOMAIN.pem
-vault read -field=value {{env "CERTS_VAULT_PATH"}}/{{.}}fullchain > ${CERTS_DIR}fullchain_$DOMAIN.pem
+vault read -field=value $CERTS_VAULT_PATH/{{.}}chain > ${CERTS_DIR}chain_$DOMAIN.pem
+vault read -field=value $CERTS_VAULT_PATH/{{.}}cert > ${CERTS_DIR}cert_$DOMAIN.pem
+vault read -field=value $CERTS_VAULT_PATH/{{.}}key > ${CERTS_DIR}key_$DOMAIN.pem
+vault read -field=value $CERTS_VAULT_PATH/{{.}}fullchain > ${CERTS_DIR}fullchain_$DOMAIN.pem
 {{end}}
