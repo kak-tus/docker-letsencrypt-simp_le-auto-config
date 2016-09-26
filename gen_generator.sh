@@ -4,6 +4,4 @@ consul-template -once -template "/root/get_certificates.sh.template:/usr/local/b
   && chmod +x /usr/local/bin/get_certificates.sh \
   && /usr/local/bin/get_certificates.sh
 
-consul-template -once -template "/root/generator.sh.template:/usr/local/bin/generator.sh" \
-  && chmod +x /usr/local/bin/generator.sh \
-  && /usr/local/bin/generator.sh
+consul-template -config /root/generator.hcl.template
