@@ -2,8 +2,27 @@
 
 {{plugin "skip.sh"}}
 
+rm -rf /etc/new_simp_le-auto.d/*
+
 {{range $dc := datacenters}}{{range $services := services (printf "@%s" $dc)}}{{range $service := service (printf "%s@%s" $services.Name $dc)}}{{if $service.Tags | contains "need-nginx"}}{{if plugin "skip.sh" $service.Name }}
-SERVICE_NAME={{$service.Name}} consul-template -once -template "/root/service.template:/etc/simp_le-auto.d/{{$service.Name}}"
+SERVICE_NAME={{$service.Name}} consul-template -once -template "/root/service.template:/etc/new_simp_le-auto.d/{{$service.Name}}"
 {{end}}{{end}}{{end}}{{end}}{{end}}
 
-/bin/start
+files=$(ls /etc/new_simp_le-auto.d)
+for file in $files; do
+  if [ -f /etc/simp_le-auto.d/$file ]; then
+    rm /etc/new_simp_le-auto.d/$file
+  else
+    echo "Got new service: $file"
+  fi
+done
+
+AUTO_CONF_D=/etc/new_simp_le-auto.d/ /etc/periodic/weekly/gen
+
+{{range $dc := datacenters}}{{range $services := services (printf "@%s" $dc)}}{{range $service := service (printf "%s@%s" $services.Name $dc)}}{{if $service.Tags | contains "need-nginx"}}{{if plugin "skip.sh" $service.Name }}
+if [ -f ${CERTS_DIR}fullchain_{{key (printf "config/%s/nginx/server_name" $service.Name)}}.pem ]; then
+  cp /etc/new_simp_le-auto.d/{{$service.Name}} /etc/simp_le-auto.d/{{$service.Name}}
+fi
+{{end}}{{end}}{{end}}{{end}}{{end}}
+
+crond -f
