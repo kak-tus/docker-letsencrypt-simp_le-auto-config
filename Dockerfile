@@ -13,7 +13,6 @@ ENV CERTS_DIR=/etc/simp_le/
 COPY consul-template_0.16.0_SHA256SUMS /usr/local/bin/consul-template_0.16.0_SHA256SUMS
 COPY gen_generator.sh /usr/local/bin/gen_generator.sh
 COPY generator.sh.template /root/generator.sh.template
-COPY service.template /root/service.template
 COPY get_certificates.sh.template /root/get_certificates.sh.template
 COPY vault_0.6.1_SHA256SUMS /usr/local/bin/vault_0.6.1_SHA256SUMS
 COPY skip.sh /usr/local/bin/skip.sh
