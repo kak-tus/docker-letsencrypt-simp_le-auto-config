@@ -8,4 +8,5 @@ vault read -field=value $CERTS_VAULT_PATH/{{.}}chain > ${CERTS_DIR}chain_$DOMAIN
 vault read -field=value $CERTS_VAULT_PATH/{{.}}cert > ${CERTS_DIR}cert_$DOMAIN.pem
 vault read -field=value $CERTS_VAULT_PATH/{{.}}key > ${CERTS_DIR}key_$DOMAIN.pem
 vault read -field=value $CERTS_VAULT_PATH/{{.}}fullchain > ${CERTS_DIR}fullchain_$DOMAIN.pem
+vault read -field=value $CERTS_VAULT_PATH/{{.}}dhparams > ${CERTS_DIR}dhparams_$DOMAIN.pem
 {{end}}
