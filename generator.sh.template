@@ -7,12 +7,12 @@ mkdir -p /etc/simp_le-auto.d
 
 rm -rf /etc/new_simp_le-auto.d/*
 
-{{range $dc := datacenters}}{{range $services := services (printf "@%s" $dc)}}{{range $service := service (printf "%s@%s" $services.Name $dc)}}{{if $service.Tags | contains "need-nginx"}}{{if plugin "skip.sh" $service.Name }}
+{{range $dc := datacenters}}{{range $services := services (printf "@%s" $dc)}}{{range $service := service (printf "%s@%s" $services.Name $dc)}}{{if $service.Tags | contains "need-nginx"}}{{if plugin "skip.sh" $service.Name }}{{if ne (key_or_default (printf "config/%s/nginx/server_name" $service.Name) "0") "0"}}
 echo '{{key (printf "config/%s/nginx/server_name" $service.Name)}}' > /etc/new_simp_le-auto.d/{{$service.Name}}
 if [ -f ${CERTS_DIR}fullchain_{{key (printf "config/%s/nginx/server_name" $service.Name)}}.pem ]; then
   mv /etc/new_simp_le-auto.d/{{$service.Name}} /etc/simp_le-auto.d/{{$service.Name}}
 fi
-{{end}}{{end}}{{end}}{{end}}{{end}}
+{{end}}{{end}}{{end}}{{end}}{{end}}{{end}}
 
 files=$(ls /etc/new_simp_le-auto.d)
 for file in $files; do
@@ -25,11 +25,11 @@ done
 
 AUTO_CONF_D=/etc/new_simp_le-auto.d/ /etc/periodic/weekly/gen
 
-{{range $dc := datacenters}}{{range $services := services (printf "@%s" $dc)}}{{range $service := service (printf "%s@%s" $services.Name $dc)}}{{if $service.Tags | contains "need-nginx"}}{{if plugin "skip.sh" $service.Name }}
+{{range $dc := datacenters}}{{range $services := services (printf "@%s" $dc)}}{{range $service := service (printf "%s@%s" $services.Name $dc)}}{{if $service.Tags | contains "need-nginx"}}{{if plugin "skip.sh" $service.Name }}{{if ne (key_or_default (printf "config/%s/nginx/server_name" $service.Name) "0") "0"}}
 if [ -f ${CERTS_DIR}fullchain_{{key (printf "config/%s/nginx/server_name" $service.Name)}}.pem ]; then
   cp /etc/new_simp_le-auto.d/{{$service.Name}} /etc/simp_le-auto.d/{{$service.Name}}
 fi
-{{end}}{{end}}{{end}}{{end}}{{end}}
+{{end}}{{end}}{{end}}{{end}}{{end}}{{end}}
 
 rm -rf /etc/new_simp_le-auto.d/*
 
