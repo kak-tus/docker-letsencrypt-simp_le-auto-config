@@ -5,8 +5,16 @@
 {{ range $service := service ( printf "%s@%s" $services.Name $dc ) }}
 {{ if $service.Tags | contains "need-nginx" }}
 {{ if plugin "skip.sh" $service.Name }}
+
 {{ if ne ( key_or_default ( printf "config/%s/nginx/server_name" $service.Name ) "0" ) "0" }}
 {{ $server_name := key ( printf "config/%s/nginx/server_name" $service.Name ) }}
 {{ $server_name }}
 {{ plugin "store.sh" ( printf "%s/%s" ( env "AUTO_CONF_D" ) $server_name ) $server_name }}
-{{ end }}{{ end }}{{ end }}{{ end }}{{ end }}{{ end }}
+{{ end }}
+
+{{ range $server_name := ls ( printf "config/%s/nginx/server_names" $service.Name ) }}
+{{ $server_name }}
+{{ plugin "store.sh" ( printf "%s/%s" ( env "AUTO_CONF_D" ) $server_name ) $server_name }}
+{{ end }}
+
+{{ end }}{{ end }}{{ end }}{{ end }}{{ end }}
