@@ -17,4 +17,8 @@ AUTO_CONF_D=/etc/new_simp_le-auto.d /etc/periodic/weekly/gen
 
 rm -rf /etc/new_simp_le-auto.d/*
 
-crond -f
+crond -f &
+child=$!
+
+trap "kill $child" SIGTERM
+wait "$child"
