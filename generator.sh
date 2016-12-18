@@ -9,7 +9,7 @@ for file in $files; do
   server_name=$( cat "$AUTO_CONF_D/$file" )
   if [ ! -f "${CERTS_DIR}fullchain_${server_name}.pem" ]; then
     echo "New service $server_name"
-    cp $file /etc/new_simp_le-auto.d
+    cp "$AUTO_CONF_D/$file" /etc/new_simp_le-auto.d
   fi
 done
 
