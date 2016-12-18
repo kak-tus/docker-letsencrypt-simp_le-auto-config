@@ -4,7 +4,7 @@
 {{ range $services := services ( printf "@%s" $dc ) }}
 {{ range $service := service ( printf "%s@%s" $services.Name $dc ) }}
 {{ if $service.Tags | contains "need-nginx" }}
-{{ if plugin "skip.sh" $service.Name }}
+{{ if plugin "skip.sh" ( "service_%s_" $service.Name ) }}
 
 {{ if ne ( key_or_default ( printf "config/%s/nginx/server_name" $service.Name ) "0" ) "0" }}
 {{ $server_name := key ( printf "config/%s/nginx/server_name" $service.Name ) }}
