@@ -13,8 +13,8 @@
 {{ end }}
 
 {{ range $server_name := ls ( printf "config/%s/nginx/server_names" $service.Name ) }}
-{{ $server_name }}
-{{ plugin "store.sh" ( printf "%s/%s" ( env "AUTO_CONF_D" ) $server_name ) $server_name }}
+{{ $server_name.Value }}
+{{ plugin "store.sh" ( printf "%s/%s" ( env "AUTO_CONF_D" ) $server_name.Value ) $server_name.Value }}
 {{ end }}
 
 {{ end }}{{ end }}{{ end }}{{ end }}{{ end }}
