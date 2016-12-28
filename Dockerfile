@@ -31,4 +31,4 @@ COPY store.sh /usr/local/bin/store.sh
 COPY skip.sh /usr/local/bin/skip.sh
 COPY generator /etc/periodic/hourly/generator
 
-ENTRYPOINT crond -f >/proc/1/fd/1 2>/proc/1/fd/2
+ENTRYPOINT crond -f
