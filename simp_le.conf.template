@@ -1,8 +1,8 @@
 {{ $path := env "CERTS_VAULT_PATH" }}
 
 {{ range $server := secrets $path }}
-{{ range $key := secrets ( printf "%s/%s" $path $server ) }}
-{{ with $val := secret ( printf "%s/%s%s" $path $server $key ) }}
+{{ range $key := secrets ( printf "%s%s" $path $server ) }}
+{{ with $val := secret ( printf "%s%s%s" $path $server $key ) }}
 {{ with $server_name := $server | replaceAll "/" "" }}
 {{ $server }}{{ $key }}
 {{ plugin "store.sh" ( printf "%s%s_%s.pem" ( env "CERTS_DIR" ) $key $server_name ) ( printf "%s" $val.Data.value ) }}

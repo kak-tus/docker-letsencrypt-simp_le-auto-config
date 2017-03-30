@@ -1,20 +1,16 @@
 {{ plugin "skip.sh" }}
 
-{{ range $dc := datacenters }}
-{{ range $services := services ( printf "@%s" $dc ) }}
-{{ range $service := service ( printf "%s@%s" $services.Name $dc ) }}
-{{ if $service.Tags | contains "need-nginx" }}
-{{ if plugin "skip.sh" ( printf "service_%s_" $service.Name ) }}
+{{ range $service_name := ls "config/nginx/services" }}
 
-{{ if ne ( key_or_default ( printf "config/%s/nginx/server_name" $service.Name ) "0" ) "0" }}
-{{ $server_name := key ( printf "config/%s/nginx/server_name" $service.Name ) }}
+{{ if $service_name.Key | printf "config/%s/nginx/server_name" | keyExists }}
+{{ $server_name := key ( printf "config/%s/nginx/server_name" $service_name.Key ) }}
 {{ $server_name }}
 {{ plugin "store.sh" ( printf "%s/%s" ( env "AUTO_CONF_D" ) $server_name ) $server_name }}
 {{ end }}
 
-{{ range $server_name := ls ( printf "config/%s/nginx/server_names" $service.Name ) }}
+{{ range $server_name := $service_name.Key | printf "config/%s/nginx/server_names" | ls }}
 {{ $server_name.Value }}
 {{ plugin "store.sh" ( printf "%s/%s" ( env "AUTO_CONF_D" ) $server_name.Value ) $server_name.Value }}
 {{ end }}
 
-{{ end }}{{ end }}{{ end }}{{ end }}{{ end }}
+{{ end }}
