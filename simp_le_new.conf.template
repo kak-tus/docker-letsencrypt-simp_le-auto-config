@@ -1,5 +1,3 @@
-{{ plugin "skip.sh" }}
-
 {{ range $service_name := ls "config/nginx/services" }}
 
 {{ if $service_name.Key | printf "config/%s/nginx/server_name" | keyExists }}
